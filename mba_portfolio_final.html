@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBA Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #f1f5f9;
+    --ink-muted: #94a3b8;
+    --ink-light: #64748b;
+    --cream: #0f172a;
+    --paper: #1e293b;
+    --gold: #f59e0b;
+    --gold-light: #1e293b;
+    --gold-dark: #fbbf24;
+    --border: #334155;
+    --accent1: #1d4ed8;
+    --accent2: #4f46e5;
+    --accent3: #be123c;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(15,23,42,0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--ink);
+    text-decoration: none; letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--ink-muted); font-size: 0.875rem; font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 45%; background: var(--paper);
+    clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0; background: #1e293b !important;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 560px; }
+  .hero-tag {
+    display: inline-block; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dark);
+    border: 1px solid var(--gold); padding: 0.35rem 1rem;
+    border-radius: 2px; margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    line-height: 1.1; font-weight: 700;
+    color: var(--ink); margin-bottom: 1.2rem;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold-dark); }
+  .hero p {
+    font-size: 1.05rem; color: var(--ink-muted);
+    max-width: 440px; margin-bottom: 2rem; line-height: 1.8;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--ink); color: var(--cream);
+    padding: 0.85rem 2rem; text-decoration: none;
+    font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em;
+    border-radius: 2px; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-dark); }
+  .btn-outline {
+    border: 1px solid var(--ink); color: var(--ink);
+    padding: 0.85rem 2rem; text-decoration: none;
+    font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em;
+    border-radius: 2px; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--cream); }
+
+  .hero-stats {
+    position: absolute; right: 3rem; bottom: 4rem; z-index: 1;
+    display: flex; gap: 3rem;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700; color: var(--ink);
+    display: block; line-height: 1;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.3rem; }
+
+  /* ABOUT */
+  #about {
+    padding: 6rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
+    align-items: center; max-width: 1100px; margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--gold-dark);
+    margin-bottom: 1rem; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.15; margin-bottom: 1.2rem; color: var(--ink);
+  }
+  .about-text p { color: var(--ink-muted); margin-bottom: 1rem; font-size: 1rem; }
+  .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .skill-tag {
+    background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3);
+    padding: 0.35rem 0.9rem; border-radius: 2px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.02em;
+  }
+  .about-right { display: flex; flex-direction: column; gap: 1.5rem; }
+  .info-card {
+    background: #1e293b; border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.5rem;
+    border-left: 3px solid var(--gold);
+  }
+  .info-card h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-muted); margin-bottom: 0.4rem; }
+  .info-card p { font-size: 0.95rem; color: var(--ink); font-weight: 400; }
+
+  /* PROJECTS */
+  #projects { padding: 5rem 3rem; background: var(--paper); }
+  .projects-header { text-align: center; max-width: 600px; margin: 0 auto 4rem; }
+  .projects-header p { color: var(--ink-muted); font-size: 1rem; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+
+  .project-card {
+    background: #1e293b; border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex; flex-direction: column;
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+
+  .project-banner {
+    height: 140px; display: flex; align-items: flex-end;
+    padding: 1.2rem; position: relative; overflow: hidden;
+  }
+  .project-banner.b1 { background: var(--accent1); }
+  .project-banner.b2 { background: var(--accent2); }
+  .project-banner.b3 { background: var(--accent3); }
+  .project-banner::before {
+    content: ''; position: absolute; top: -30px; right: -30px;
+    width: 120px; height: 120px; border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .project-banner::after {
+    content: ''; position: absolute; top: 20px; right: 30px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .project-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 700; color: rgba(255,255,255,0.12);
+    position: absolute; top: 10px; left: 16px; line-height: 1;
+  }
+  .project-domain {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9); padding: 0.3rem 0.8rem; border-radius: 2px;
+    position: relative; z-index: 1;
+  }
+
+  .project-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--ink);
+    margin-bottom: 0.6rem; line-height: 1.3;
+  }
+  .project-desc { font-size: 0.9rem; color: var(--ink-muted); line-height: 1.7; flex: 1; margin-bottom: 1.2rem; }
+
+  .project-impact {
+    background: rgba(245,158,11,0.12); border-radius: 3px; border: 1px solid rgba(245,158,11,0.2);
+    padding: 0.8rem 1rem; margin-bottom: 1.2rem;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+  }
+  .impact-icon { font-size: 0.9rem; color: #fbbf24; margin-top: 2px; }
+  .impact-text { font-size: 0.82rem; color: #fbbf24; font-weight: 500; line-height: 1.5; }
+
+  .project-tools { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tool-tag {
+    background: #0f172a; border: 1px solid var(--border);
+    color: var(--ink-muted); font-size: 0.72rem;
+    padding: 0.25rem 0.65rem; border-radius: 2px; font-weight: 400;
+  }
+
+  /* RESULTS */
+  #results {
+    padding: 6rem 3rem; max-width: 1100px; margin: 0 auto;
+  }
+  .results-header { margin-bottom: 3rem; }
+  .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+  .result-card {
+    background: #1e293b; border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.8rem 1.5rem; text-align: center;
+    border-top: 3px solid var(--gold);
+  }
+  .result-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; font-weight: 700; color: var(--ink);
+    line-height: 1; display: block; margin-bottom: 0.4rem;
+  }
+  .result-label { font-size: 0.82rem; color: var(--ink-muted); line-height: 1.4; }
+
+  /* Chart placeholder */
+  .chart-area {
+    background: #1e293b; border: 1px solid var(--border);
+    border-radius: 4px; padding: 2rem; margin-top: 2rem;
+  }
+  .chart-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--ink); margin-bottom: 1.5rem; }
+  .bar-chart { display: flex; align-items: flex-end; gap: 1.2rem; height: 180px; }
+  .bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .bar { width: 100%; border-radius: 3px 3px 0 0; transition: opacity 0.2s; cursor: default; }
+  .bar:hover { opacity: 0.85; }
+  .bar-label { font-size: 0.72rem; color: var(--ink-muted); text-align: center; line-height: 1.3; }
+  .bar-val { font-size: 0.78rem; font-weight: 500; color: var(--ink); }
+
+  /* WORK EXPERIENCE */
+  #experience { padding: 6rem 3rem; background: var(--paper); }
+  .exp-header { text-align: center; max-width: 600px; margin: 0 auto 3.5rem; }
+  .exp-header p { color: var(--ink-muted); }
+  .exp-card {
+    max-width: 900px; margin: 0 auto 2rem;
+    background: #1e293b; border: 1px solid var(--border);
+    border-radius: 4px; overflow: hidden;
+  }
+  .exp-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 1.5rem 1.8rem 1rem; flex-wrap: wrap; gap: 0.5rem;
+    border-left: 4px solid var(--gold);
+  }
+  .exp-company { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+  .exp-role { font-size: 0.85rem; color: var(--ink-muted); margin-top: 0.2rem; font-weight: 400; }
+  .exp-meta { text-align: right; }
+  .exp-date { font-size: 0.82rem; font-weight: 500; color: var(--gold-dark); display: block; }
+  .exp-loc { font-size: 0.78rem; color: var(--ink-muted); }
+  .exp-body { padding: 0 1.8rem 1.5rem; }
+  .exp-group { margin-bottom: 1.1rem; }
+  .exp-group-title { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.5rem; }
+  .exp-bullets { list-style: none; padding: 0; }
+  .exp-bullets li { font-size: 0.88rem; color: var(--ink-muted); line-height: 1.7; padding-left: 1rem; position: relative; margin-bottom: 0.3rem; }
+  .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-size: 0.75rem; top: 3px; }
+
+  /* CERTIFICATIONS & ACHIEVEMENTS */
+  #extras { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .extras-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .extra-block { }
+  .extra-block h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--ink); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f59e0b; display: inline-block; }
+  .extra-item { display: flex; gap: 0.8rem; align-items: flex-start; margin-bottom: 0.9rem; }
+  .extra-dot { width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; margin-top: 7px; flex-shrink: 0; }
+  .extra-text { font-size: 0.875rem; color: var(--ink-muted); line-height: 1.6; }
+  .extra-text strong { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 768px) {
+    .extras-grid { grid-template-columns: 1fr; }
+    #experience { padding: 4rem 1.5rem; }
+    #extras { padding: 4rem 1.5rem; }
+    .exp-top { flex-direction: column; }
+    .exp-meta { text-align: left; }
+  }
+
+  /* FOOTER */
+  footer {
+    background: #020617; color: rgba(255,255,255,0.5);
+    padding: 3rem; text-align: center; font-size: 0.85rem;
+  }
+  footer strong { color: rgba(255,255,255,0.9); font-family: 'Playfair Display', serif; display: block; font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .hero { padding: 7rem 1.5rem 10rem; }
+    .hero-bg { display: none; }
+    .hero-stats { right: 1.5rem; bottom: 2rem; gap: 2rem; }
+    #about { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
+    #projects { padding: 4rem 1.5rem; }
+    #results { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Harshit Kumar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-tag">MBA Portfolio · 2025–27</span>
+    <h1>From <em>enterprise systems</em> to strategic impact.</h1>
+    <p>MBA Candidate at Indian Institute of Technology, Dhanbad with 3.5 years at Tata Consultancy Services as an System Engineer. I bring a rare blend of hands-on analytics, ERP expertise, and MBA-level strategy thinking.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#" id="hero-contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">3.5</span>
+      <div class="stat-label">Yrs at TCS</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">4</span>
+      <div class="stat-label">MBA Projects</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">40+</span>
+      <div class="stat-label">KPI Reports</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <span class="section-label">Who I Am</span>
+    <h2 class="section-title">Strategy. Analytics. Leadership.</h2>
+    <p>I'm Harshit Kumar, an MBA candidate at Indian Institute of Technology, Dhanbad (Class of 2027), with hands-on experience in ERP consulting, product analytics, data analytics, and project management.</p>
+    <p>I've worked with real clients like Space Era on go-to-market strategy and business development, and led institutional projects at Indian Institute of Technology, Dhanbad. I'm passionate about solving complex business problems with data and structured thinking.</p>
+    <div class="skills-grid">
+      <span class="skill-tag">Go-to-Market Strategy</span>
+      <span class="skill-tag">Power BI</span>
+      <span class="skill-tag">Oracle Apps R12</span>
+      <span class="skill-tag">Market Research</span>
+      <span class="skill-tag">MS Project</span>
+      <span class="skill-tag">Figma</span>
+      <span class="skill-tag">Lean Six Sigma</span>
+      <span class="skill-tag">ERP Business Workflows</span>
+      <span class="skill-tag">SQL & PL/SQL</span>
+    </div>
+  </div>
+  <div class="about-right">
+    <div class="info-card">
+      <h4>Institution</h4>
+      <p>Indian Institute of Technology, Dhanbad</p>
+    </div>
+    <div class="info-card">
+      <h4>Specialization</h4>
+      <p>MBA — Business Management</p>
+    </div>
+    <div class="info-card">
+      <h4>Expected Graduation</h4>
+      <p>2027</p>
+    </div>
+    <div class="info-card">
+      <h4>Location</h4>
+      <p>Dhanbad, Jharkhand, India</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <span class="section-label">Academic Work</span>
+    <h2 class="section-title">Featured Projects</h2>
+    <p>Four hands-on projects spanning strategy consulting, go-to-market planning, data analysis, and project management — all delivering real business outcomes.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Project 1 -->
+    <div class="project-card">
+      <div class="project-banner b1">
+        <span class="project-num">01</span>
+        <span class="project-domain">Data Analytics</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Exploratory Data Analysis — Demand Shortage Factors</div>
+        <p class="project-desc">Performed a structured EDA on a real-world dataset to uncover the key drivers behind demand shortages. Applied statistical techniques to identify patterns, correlations, and anomalies, translating findings into actionable insights for supply-demand planning.</p>
+        <div class="project-impact">
+          <span class="impact-icon">↑</span>
+          <span class="impact-text">Identified key variables significantly influencing demand shortages, enabling more targeted planning decisions</span>
+        </div>
+        <div class="project-tools">
+          <span class="tool-tag">Exploratory Data Analysis</span>
+          <span class="tool-tag">Statistical Analysis</span>
+          <span class="tool-tag">Data Visualisation</span>
+          <span class="tool-tag">Python / Excel</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 2 -->
+    <div class="project-card">
+      <div class="project-banner b2">
+        <span class="project-num">02</span>
+        <span class="project-domain">Go-to-Market & Finance</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Go-to-Market Strategy — Student Exchange Program · Space Era</div>
+        <p class="project-desc">Designed an end-to-end launch strategy for Space Era's student exchange program. Conducted market research, built a financial model covering revenue potential, cost structure, and break-even feasibility, and defined value proposition and pricing. Presented strategic recommendations to stakeholders to support scalability decisions.</p>
+        <div class="project-impact">
+          <span class="impact-icon">↑</span>
+          <span class="impact-text">Delivered a data-backed scalability roadmap that informed key expansion decisions for the program</span>
+        </div>
+        <div class="project-tools">
+          <span class="tool-tag">Market Research</span>
+          <span class="tool-tag">Financial Modelling</span>
+          <span class="tool-tag">Break-even Analysis</span>
+          <span class="tool-tag">Pricing Strategy</span>
+          <span class="tool-tag">Stakeholder Presentation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="project-card">
+      <div class="project-banner b3">
+        <span class="project-num">03</span>
+        <span class="project-domain">Strategy Consulting</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Solution Showcase Deck for Space Era</div>
+        <p class="project-desc">Developed a comprehensive client-facing presentation deck for Space Era, articulating their solution offerings in a compelling, structured format. The deck was designed to support business development and help the client effectively communicate value to prospective customers.</p>
+        <div class="project-impact">
+          <span class="impact-icon">↑</span>
+          <span class="impact-text">Enabled Space Era to clearly target and convert potential customers with a polished go-to-client narrative</span>
+        </div>
+        <div class="project-tools">
+          <span class="tool-tag">Consulting Deck</span>
+          <span class="tool-tag">Storytelling</span>
+          <span class="tool-tag">Value Proposition Design</span>
+          <span class="tool-tag">PowerPoint</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="project-card">
+      <div class="project-banner" style="background: #2d3a4e;">
+        <span class="project-num">04</span>
+        <span class="project-domain">Project Management & Design</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Website Development — Student Activity Centre, IIT Dhanbad</div>
+        <p class="project-desc">Led project monitoring for the development of a new website for IIT Dhanbad's Student Activity Centre using MS Project. Additionally designed a high-fidelity prototype of the website in Figma, laying out the user experience and interface structure for the development team.</p>
+        <div class="project-impact">
+          <span class="impact-icon">↑</span>
+          <span class="impact-text">Delivered a structured project plan and a ready-to-develop Figma prototype, streamlining the development handoff</span>
+        </div>
+        <div class="project-tools">
+          <span class="tool-tag">MS Project</span>
+          <span class="tool-tag">Figma</span>
+          <span class="tool-tag">UI/UX Prototyping</span>
+          <span class="tool-tag">Project Scheduling</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="results-header">
+    <span class="section-label">Key Outcomes</span>
+    <h2 class="section-title">Impact at a Glance</h2>
+  </div>
+  <div class="results-grid">
+    <div class="result-card">
+      <span class="result-num">2</span>
+      <div class="result-label">Real client projects delivered for Space Era</div>
+    </div>
+    <div class="result-card">
+      <span class="result-num">4</span>
+      <div class="result-label">Diverse domains covered across projects</div>
+    </div>
+    <div class="result-card">
+      <span class="result-num">6+</span>
+      <div class="result-label">Tools & frameworks applied end-to-end</div>
+    </div>
+    <div class="result-card">
+      <span class="result-num">1</span>
+      <div class="result-label">Live institutional project at IIT Dhanbad</div>
+    </div>
+  </div>
+
+  <div class="chart-area">
+    <div class="chart-title">Skills Applied Across Projects</div>
+    <div class="bar-chart">
+      <div class="bar-wrap">
+        <span class="bar-val">2</span>
+        <div class="bar" style="height:130px; background: var(--accent1);"></div>
+        <span class="bar-label">Strategy<br>Consulting</span>
+      </div>
+      <div class="bar-wrap">
+        <span class="bar-val">1</span>
+        <div class="bar" style="height:65px; background: var(--accent2);"></div>
+        <span class="bar-label">Financial<br>Modelling</span>
+      </div>
+      <div class="bar-wrap">
+        <span class="bar-val">1</span>
+        <div class="bar" style="height:65px; background: var(--accent3);"></div>
+        <span class="bar-label">Data<br>Analytics</span>
+      </div>
+      <div class="bar-wrap">
+        <span class="bar-val">1</span>
+        <div class="bar" style="height:65px; background: var(--gold);"></div>
+        <span class="bar-label">UI/UX<br>Design</span>
+      </div>
+      <div class="bar-wrap">
+        <span class="bar-val">1</span>
+        <div class="bar" style="height:65px; background: #2d3a4e;"></div>
+        <span class="bar-label">Project<br>Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK EXPERIENCE -->
+<section id="experience">
+  <div class="exp-header">
+    <span class="section-label">Professional Background</span>
+    <h2 class="section-title">Work Experience</h2>
+    <p>3.5 years at Tata Consultancy Services as a System Engineer, delivering enterprise analytics and ERP solutions for global clients.</p>
+  </div>
+
+  <div class="exp-card">
+    <div class="exp-top">
+      <div>
+        <div class="exp-company">Tata Consultancy Services</div>
+        <div class="exp-role">System Engineer · Oracle Apps R12 Consultant</div>
+      </div>
+      <div class="exp-meta">
+        <span class="exp-date">Feb 2022 – July 2025</span>
+        <span class="exp-loc">Kolkata, West Bengal</span>
+      </div>
+    </div>
+    <div class="exp-body">
+      <div class="exp-group">
+        <div class="exp-group-title">Business Operations & Process Analysis</div>
+        <ul class="exp-bullets">
+          <li>Performed process diagnostic of order-to-cash and procure-to-pay workflows for 3 global clients using Oracle Apps R12, uncovering bottlenecks affecting fulfillment timelines and reporting accuracy.</li>
+          <li>Collaborated with finance and supply chain stakeholders to improve operational visibility and decision-making reliability.</li>
+          <li>Designed 40+ KPI tracking reports identifying revenue leakage and order-cycle inefficiencies, enabling data-driven improvements.</li>
+        </ul>
+      </div>
+      <div class="exp-group">
+        <div class="exp-group-title">Data-Driven Decision Support</div>
+        <ul class="exp-bullets">
+          <li>Built Power BI dashboards tracking key operational metrics, uncovering performance trends and workflow bottlenecks for stakeholders.</li>
+          <li>Translated business requirements into analytical solutions by coordinating with consultants, DBAs, and client leadership.</li>
+          <li>Analyzed 180+ operational cases to identify recurring failure patterns, improving resolution time and system reliability.</li>
+        </ul>
+      </div>
+      <div class="exp-group">
+        <div class="exp-group-title">Transformation & Implementation</div>
+        <ul class="exp-bullets">
+          <li>Supported cloud migration validation to ensure business continuity during system transition.</li>
+          <li>Facilitated system integrations (CRM and e-commerce) improving order management consistency and cross-team visibility.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS, ACHIEVEMENTS, EXTRAS -->
+<section id="extras">
+  <span class="section-label">Beyond the Classroom</span>
+  <h2 class="section-title">Certifications & Achievements</h2>
+  <div class="extras-grid">
+
+    <div class="extra-block">
+      <h3>Certifications</h3>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text"><strong>Power BI</strong> — Microsoft certified. ID: UC-50817409</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text"><strong>Green Belt in Lean Six Sigma</strong> — ID: IP092025238</div>
+      </div>
+    </div>
+
+    <div class="extra-block">
+      <h3>Achievements</h3>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text">Back-to-back <strong>"A" Band</strong> at Tata Consultancy Services — awarded for consistent high performance</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text">Participated in <strong>Prodblitz</strong> — annual product management case competition at IIT Dhanbad</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text">Competed in <strong>Consultrix</strong> — inaugural case competition of 180DC consulting club, working on a live industry problem</div>
+      </div>
+    </div>
+
+    <div class="extra-block">
+      <h3>Leadership & Social</h3>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text"><strong>Associate at 180DC</strong> (Indian Institute of Technology, Dhanbad) & Fast Forward India (FFI)</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text"><strong>Best Intern Award</strong> — Sambhaj NGO (2021), for work in educational awareness for underprivileged children</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-dot"></div>
+        <div class="extra-text">Volunteer at blood donation camp organised by FFI; active in Badminton, Chess & Cricket</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <strong>Harshit Kumar</strong>
+  MBA Candidate (2025–27) &nbsp;·&nbsp; <span id="footer-email"></span> &nbsp;·&nbsp;
+  <a href="https://www.linkedin.com/in/harshit-kumar-291136229" target="_blank" style="color: rgba(255,255,255,0.6); text-decoration: underline;">LinkedIn</a>
+  &nbsp;·&nbsp; Indian Institute of Technology, Dhanbad
+</footer>
+<script>
+(function() {
+  var p1 = '25mb';
+  var p2 = '0040';
+  var p3 = 'iitism';
+  var p4 = 'ac.in';
+  var e = p1 + p2 + String.fromCharCode(64) + p3 + '.' + p4;
+  function copyEmail(btn) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(e).then(function() {
+        if (btn) {
+          var orig = btn.innerText;
+          btn.innerText = 'Copied!';
+          setTimeout(function(){ btn.innerText = orig; }, 2000);
+        }
+      });
+    } else {
+      prompt('Your email:', e);
+    }
+  }
+  window.addEventListener('DOMContentLoaded', function() {
+    var fe = document.getElementById('footer-email');
+    if (fe) fe.innerText = e;
+    var nc = document.getElementById('nav-contact');
+    if (nc) nc.addEventListener('click', function(ev){ ev.preventDefault(); copyEmail(nc); });
+    var hc = document.getElementById('hero-contact');
+    if (hc) hc.addEventListener('click', function(ev){ ev.preventDefault(); copyEmail(hc); });
+  });
+})();
+</script>
+</body>
+</html>
